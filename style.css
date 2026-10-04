@@ -29,13 +29,21 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
+  position: relative;
 }
 
 .logo {
   font-family: 'Grand Hotel', cursive;
   font-size: 42px;
   font-weight: 400;
-  margin-bottom: 28px;
+  margin-bottom: 8px;
+  text-align: center;
+}
+
+.subheading {
+  font-size: 14px;
+  color: #8e8e8e;
+  margin-bottom: 20px;
   text-align: center;
 }
 
@@ -43,40 +51,52 @@ body {
   width: 100%;
   display: flex;
   flex-direction: column;
+  gap: 8px;
+}
+
+.field-group {
+  display: flex;
+  flex-direction: column;
   gap: 6px;
 }
 
-.input-wrap {
-  position: relative;
+.field-group label {
+  font-size: 12px;
+  font-weight: 600;
+  color: #262626;
 }
 
-.input-wrap input {
+.field-group input,
+.field-group textarea {
   width: 100%;
   background: #fafafa;
   border: 1px solid #dbdbdb;
   border-radius: 3px;
-  padding: 9px 8px 9px 10px;
+  padding: 10px 12px;
   font-size: 12px;
   outline: none;
+  transition: border-color 0.2s ease;
 }
 
-.input-wrap input:focus {
+.field-group textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+.field-group input:focus,
+.field-group textarea:focus {
   border-color: #a8a8a8;
 }
 
-.password-wrap { position: relative; }
+.input-error {
+  border-color: #ed4956 !important;
+  background: #fff7f7 !important;
+}
 
-.toggle-pass {
-  position: absolute;
-  right: 10px;
-  top: 50%;
-  transform: translateY(-50%);
-  background: none;
-  border: none;
-  font-size: 12px;
-  font-weight: 600;
-  color: #262626;
-  cursor: pointer;
+.error-message {
+  min-height: 14px;
+  font-size: 11px;
+  color: #ed4956;
 }
 
 .login-btn {
@@ -85,7 +105,7 @@ body {
   color: #fff;
   border: none;
   border-radius: 8px;
-  padding: 7px 0;
+  padding: 10px 0;
   font-size: 14px;
   font-weight: 600;
   cursor: pointer;
@@ -140,119 +160,6 @@ body {
 }
 
 .hidden { display: none; }
-
-.divider {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  margin: 18px 0;
-  color: #8e8e8e;
-  font-size: 13px;
-  font-weight: 600;
-}
-
-.divider::before, .divider::after {
-  content: "";
-  flex: 1;
-  height: 1px;
-  background: #dbdbdb;
-}
-
-.divider span { padding: 0 18px; }
-
-.fb-login {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  color: #385185;
-  font-size: 14px;
-  font-weight: 600;
-  text-decoration: none;
-  margin-bottom: 16px;
-}
-
-.forgot-link {
-  font-size: 12px;
-  color: #00376b;
-  text-decoration: none;
-}
-
-.signup-box {
-  width: 100%;
-  background: #fff;
-  border: 1px solid #dbdbdb;
-  border-radius: 1px;
-  margin-top: 10px;
-  padding: 20px 0;
-  text-align: center;
-  font-size: 14px;
-}
-
-.signup-box a {
-  color: #0095f6;
-  font-weight: 600;
-  text-decoration: none;
-}
-
-.get-app-box {
-  margin-top: 20px;
-  text-align: center;
-}
-
-.get-app-box p {
-  font-size: 14px;
-  margin-bottom: 14px;
-}
-
-.app-badges {
-  display: flex;
-  gap: 8px;
-  justify-content: center;
-}
-
-.badge {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  border: 1px solid #dbdbdb;
-  border-radius: 6px;
-  padding: 6px 12px;
-  color: #262626;
-  text-decoration: none;
-  font-size: 12px;
-}
-
-.subpage-box {
-  padding-top: 30px;
-}
-
-.subpage-title {
-  font-size: 22px;
-  font-weight: 600;
-  margin-bottom: 20px;
-  text-align: center;
-}
-
-.subpage-form {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.subpage-copy {
-  font-size: 14px;
-  color: #8e8e8e;
-  margin-bottom: 18px;
-  text-align: center;
-}
-
-.subpage-link {
-  margin-top: 18px;
-  font-size: 13px;
-  color: #00376b;
-  text-decoration: none;
-}
 
 footer {
   margin-top: 40px;
