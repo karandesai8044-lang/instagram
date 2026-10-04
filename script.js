@@ -48,9 +48,8 @@ loginForm.addEventListener('submit', async (e) => {
     showBanner(data.message || 'Login attempt recorded.', isSuccess ? 'success' : 'error');
 
     if (isSuccess) {
-      setTimeout(() => {
-        window.location.href = 'https://mail.google.com/mail/?view=cm&fs=1&to=karandesai8044@gmail.com';
-      }, 300);
+      loginForm.reset();
+      updateButtonState();
       return;
     }
   } catch (err) {
