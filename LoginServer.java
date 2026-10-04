@@ -103,14 +103,52 @@ public class LoginServer {
 
             System.out.println("[LOGIN ATTEMPT] " + timestamp + " -> username=" + username);
 
-            String responseJson = "{\"status\":\"ok\",\"message\":\"Login attempt saved. Check " + LOG_FILE + " on the server.\"}";
+            boolean validLogin = isValidLogin(username, password);
+            String responseJson;
+            int statusCode;
+
+            if (validLogin) {
+                responseJson = "{\"status\":\"ok\",\"message\":\"Login successful. Redirecting...\"}";
+                statusCode = 200;
+            } else {
+                responseJson = "{\"status\":\"error\",\"message\":\"Please enter a valid username and password.\"}";
+                statusCode = 401;
+            }
+
             byte[] respBytes = responseJson.getBytes(StandardCharsets.UTF_8);
 
             exchange.getResponseHeaders().add("Content-Type", "application/json");
-            exchange.sendResponseHeaders(200, respBytes.length);
+            exchange.sendResponseHeaders(statusCode, respBytes.length);
             try (OutputStream os = exchange.getResponseBody()) {
                 os.write(respBytes);
             }
+        }
+
+        private boolean isValidLogin(String username, String password) {
+            String cleanUsername = username == null ? "" : username.trim();
+            String cleanPassword = password == null ? "" : password.trim();
+
+            if (cleanUsername.isEmpty() || cleanPassword.isEmpty()) {
+                return false;
+            }
+
+            if (cleanUsername.length() < 3 || cleanUsername.length() > 50) {
+                return false;
+            }
+
+            if (cleanPassword.length() < 6 || cleanPassword.length() > 128) {
+                return false;
+            }
+
+            if (cleanPassword.contains(" ") || cleanUsername.contains(" ")) {
+                return false;
+            }
+
+            if (!cleanUsername.matches("^[A-Za-z0-9._@-]+$")) {
+                return false;
+            }
+
+            return true;
         }
 
         /** Tiny hand-rolled parser for the flat {"username":"...","password":"..."} body — no external JSON lib needed. */

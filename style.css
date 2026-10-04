@@ -115,6 +115,30 @@ body {
   color: #1f8b4c;
 }
 
+.loading-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(255, 255, 255, 0.75);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 1px;
+  z-index: 10;
+}
+
+.spinner {
+  width: 28px;
+  height: 28px;
+  border: 3px solid #dbdbdb;
+  border-top-color: #0095f6;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
 .hidden { display: none; }
 
 .divider {
@@ -196,6 +220,38 @@ body {
   color: #262626;
   text-decoration: none;
   font-size: 12px;
+}
+
+.subpage-box {
+  padding-top: 30px;
+}
+
+.subpage-title {
+  font-size: 22px;
+  font-weight: 600;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.subpage-form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.subpage-copy {
+  font-size: 14px;
+  color: #8e8e8e;
+  margin-bottom: 18px;
+  text-align: center;
+}
+
+.subpage-link {
+  margin-top: 18px;
+  font-size: 13px;
+  color: #00376b;
+  text-decoration: none;
 }
 
 footer {
