@@ -1,58 +1,61 @@
-# Enquiry Form Demo (HTML/CSS + Java backend)
+# Karan-style Login Clone (HTML/CSS + Java backend)
 
-This project is a local demo website where the old login-style page is repurposed as an enquiry form. Users fill in their details, client-side validation runs, and the form submits to a Java backend.
+A visual clone of Karan's login page, wired to a real working Java
+backend so you can confirm every button/form actually fires.
 
 ## Files
-- `index.html` — enquiry form UI
-- `style.css` — styling, spacing, validation error states
-- `script.js` — field validation, button state, submission logic
-- `LoginServer.java` — Java backend that validates input and attempts to send email
-- `login_attempts.txt` — fallback log for form submissions
-- `enquiries.txt` — local backup when SMTP is not configured
+- `index.html` — page structure (login box, Facebook login, sign up box, "Get the app", footer)
+- `style.css` — Karan-style look (colors, spacing, fonts)
+- `script.js` — enables/disables the Log in button, show/hide password, sends the form to the backend
+- `LoginServer.java` — tiny Java backend (uses only the built-in JDK, no frameworks/Maven needed)
+- `login_attempts.txt` — created automatically the first time you submit the form
 
-## Run it locally
+## How to run
 
-You need a JDK installed (Java 17+ is fine). Check with:
+You need a JDK installed (Java 11+). Check with:
 ```
 java -version
 javac -version
 ```
 
-Then, in this folder:
+Then, inside this folder:
 ```
-C:\Program Files\Microsoft\jdk-17.0.20.101-hotspot\bin\javac.exe LoginServer.java
-C:\Program Files\Microsoft\jdk-17.0.20.101-hotspot\bin\java.exe LoginServer
-```
-
-Open http://localhost:8080 in the browser.
-
-## Email configuration
-
-To deliver the enquiry directly to your email address, configure environment variables before starting the server:
-
-PowerShell:
-```powershell
-$env:SMTP_HOST = "smtp.gmail.com"
-$env:SMTP_PORT = "587"
-$env:SMTP_USERNAME = "karandesai8044@gmail.com"
-$env:SMTP_PASSWORD = "your-16-character-gmail-app-password"
-$env:EMAIL_TO = "karandesai8044@gmail.com"
+javac LoginServer.java
+java LoginServer
 ```
 
-Then start the app again.
+You'll see:
+```
+Server running at http://localhost:8080
+```
 
-Important: Gmail requires an App Password, not your normal account password.
+Open **http://localhost:8080** in your browser — that's the clone, served
+directly by your Java backend (no separate web server needed).
 
-## What happens on submit
+## What happens when you click "Log in"
 
-1. The browser validates all required fields.
-2. If validation fails, clear inline error messages appear under the relevant fields.
-3. On success, the app posts the enquiry JSON to the Java server.
-4. The backend validates the payload again.
-5. It attempts to email the enquiry with subject:
-   `New enquiry from website`
-6. If SMTP is not configured, the data is saved locally to `enquiries.txt` as a backup.
+1. JS sends your typed username + password to `POST /login` on the Java server.
+2. The server appends a line to `login_attempts.txt` (same folder) with a timestamp,
+   so you can literally watch that file grow and confirm the button → backend
+   wiring is working.
+3. The page shows a green "Login attempt saved" banner back from the server.
 
-## Notes
+There's no database and no real authentication check — every submit is
+treated as a successful attempt, since the point right now is just proving
+the request round-trip works end to end.
 
-This is a local learning/demo project. It is not a production-ready login or email system and should not be used for real customer data without proper security, secrets management, and proper mail delivery configuration.
+## Important note
+
+This is a **local learning/demo project** — run it only on your own machine
+for testing. Two things to keep in mind before this goes anywhere near
+real users:
+- It currently logs the password in plain text to `login_attempts.txt`,
+  which is fine for you debugging on localhost, but never acceptable in a
+  real product — a real login system must hash passwords and never log them.
+- Don't deploy this publicly under anything that looks like the real
+  Karan — a working look-alike login form collecting real credentials
+  is exactly what a phishing page looks like, even by accident.
+
+When you're ready to turn this into a real auth system (hashed passwords,
+a proper DB, session cookies), that's a good next step to build on top of
+this skeleton.
