@@ -1,0 +1,248 @@
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: #fafafa;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  color: #262626;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.top-spacer { height: 40px; }
+
+.container {
+  width: 350px;
+  max-width: 90vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.login-box {
+  width: 100%;
+  background: #fff;
+  border: 1px solid #dbdbdb;
+  border-radius: 1px;
+  padding: 44px 40px 36px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.logo {
+  font-family: 'Grand Hotel', cursive;
+  font-size: 42px;
+  font-weight: 400;
+  margin-bottom: 28px;
+  text-align: center;
+}
+
+#loginForm {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.input-wrap {
+  position: relative;
+}
+
+.input-wrap input {
+  width: 100%;
+  background: #fafafa;
+  border: 1px solid #dbdbdb;
+  border-radius: 3px;
+  padding: 9px 8px 9px 10px;
+  font-size: 12px;
+  outline: none;
+}
+
+.input-wrap input:focus {
+  border-color: #a8a8a8;
+}
+
+.password-wrap { position: relative; }
+
+.toggle-pass {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  font-size: 12px;
+  font-weight: 600;
+  color: #262626;
+  cursor: pointer;
+}
+
+.login-btn {
+  margin-top: 8px;
+  background: #0095f6;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 7px 0;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.login-btn:disabled {
+  background: #0095f6;
+  opacity: 0.4;
+  cursor: default;
+}
+
+.banner {
+  width: 100%;
+  background: #fff0f0;
+  border: 1px solid #ed4956;
+  color: #ed4956;
+  font-size: 12px;
+  padding: 8px 10px;
+  border-radius: 4px;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.banner.success {
+  background: #f0fff4;
+  border-color: #2ecc71;
+  color: #1f8b4c;
+}
+
+.hidden { display: none; }
+
+.divider {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  margin: 18px 0;
+  color: #8e8e8e;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.divider::before, .divider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: #dbdbdb;
+}
+
+.divider span { padding: 0 18px; }
+
+.fb-login {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #385185;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  margin-bottom: 16px;
+}
+
+.forgot-link {
+  font-size: 12px;
+  color: #00376b;
+  text-decoration: none;
+}
+
+.signup-box {
+  width: 100%;
+  background: #fff;
+  border: 1px solid #dbdbdb;
+  border-radius: 1px;
+  margin-top: 10px;
+  padding: 20px 0;
+  text-align: center;
+  font-size: 14px;
+}
+
+.signup-box a {
+  color: #0095f6;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.get-app-box {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.get-app-box p {
+  font-size: 14px;
+  margin-bottom: 14px;
+}
+
+.app-badges {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+}
+
+.badge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  border: 1px solid #dbdbdb;
+  border-radius: 6px;
+  padding: 6px 12px;
+  color: #262626;
+  text-decoration: none;
+  font-size: 12px;
+}
+
+footer {
+  margin-top: 40px;
+  padding: 20px 0 40px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.footer-inner {
+  width: 760px;
+  max-width: 90vw;
+  text-align: center;
+}
+
+.footer-links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 16px 24px;
+  margin-bottom: 20px;
+}
+
+.footer-links a {
+  color: #8e8e8e;
+  font-size: 12px;
+  text-decoration: none;
+}
+
+.footer-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  color: #8e8e8e;
+  font-size: 12px;
+}
+
+.lang-select {
+  border: none;
+  background: transparent;
+  color: #8e8e8e;
+  font-size: 12px;
+}
+
+@media (max-width: 500px) {
+  .login-box { border: none; }
+  .top-spacer { height: 20px; }
+}
