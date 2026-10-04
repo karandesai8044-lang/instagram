@@ -29,11 +29,12 @@ import java.util.HashMap;
  */
 public class LoginServer {
 
-    private static final int PORT = 8080;
+    private static final int DEFAULT_PORT = 8080;
     private static final String LOG_FILE = "login_attempts.txt";
 
     public static void main(String[] args) throws IOException {
-        HttpServer server = HttpServer.create(new InetSocketAddress(PORT), 0);
+        int port = Integer.parseInt(System.getenv().getOrDefault("PORT", String.valueOf(DEFAULT_PORT)));
+        HttpServer server = HttpServer.create(new InetSocketAddress(port), 0);
 
         server.createContext("/login", new LoginHandler());
         server.createContext("/", new StaticFileHandler());
@@ -41,7 +42,7 @@ public class LoginServer {
         server.setExecutor(null);
         server.start();
 
-        System.out.println("Server running at http://localhost:" + PORT);
+        System.out.println("Server running at http://0.0.0.0:" + port);
         System.out.println("Login attempts will be appended to " + LOG_FILE);
     }
 
