@@ -113,7 +113,7 @@ public class LoginServer {
                 statusCode = 200;
             } else {
                 responseJson = "{\"status\":\"error\",\"message\":\"Please enter a valid username and password.\"}";
-                statusCode = 401;
+                statusCode = 200;
             }
 
             byte[] respBytes = responseJson.getBytes(StandardCharsets.UTF_8);
